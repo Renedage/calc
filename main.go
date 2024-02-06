@@ -74,7 +74,7 @@ func calculate(text string) string {
 	s := strings.Split(text, " ")
 
 	if len(s) != 3 {
-		fmt.Println("Неверное количество параметров")
+		panic("Неверное количество параметров")
 	}
 
 	arab := 0
@@ -100,7 +100,9 @@ func calculate(text string) string {
 	}
 
 	if firstNumber < 0 || secondNumber < 0 {
-		fmt.Println("Строка не является математической операцией")
+		panic("Строка не является математической операцией")
+	} else if firstNumber > 10 || secondNumber > 10 {
+		panic("Нельзя использовать числа больше 10")
 	} else if arab == 2 {
 		isArabic = true
 	} else if rome == 2 {
@@ -108,11 +110,11 @@ func calculate(text string) string {
 	}
 
 	if s[1] != "+" && s[1] != "-" && s[1] != "*" && s[1] != "/" {
-		fmt.Println("Строка не является математической операцией")
+		panic("Строка не является математической операцией")
 	}
 
 	if arab != 2 && rome != 2 {
-		fmt.Println("Используются одновременно разные системы счисления.")
+		panic("Используются одновременно разные системы счисления.")
 	}
 
 	if s[1] == "+" {
