@@ -80,6 +80,7 @@ func calculate(text string) string {
 	arab := 0
 	rome := 0
 
+	operation := s[1]
 	isArabic := false
 	firstNumber := 0
 	secondNumber := 0
@@ -109,7 +110,7 @@ func calculate(text string) string {
 		isArabic = false
 	}
 
-	if s[1] != "+" && s[1] != "-" && s[1] != "*" && s[1] != "/" {
+	if operation != "+" && operation != "-" && operation != "*" && operation != "/" {
 		panic("Строка не является математической операцией")
 	}
 
@@ -117,16 +118,24 @@ func calculate(text string) string {
 		panic("Используются одновременно разные системы счисления.")
 	}
 
-	if s[1] == "+" {
-		return formatNumber(firstNumber+secondNumber, isArabic)
-	} else if s[1] == "-" {
-		return formatNumber(firstNumber-secondNumber, isArabic)
-	} else if s[1] == "*" {
-		return formatNumber(firstNumber*secondNumber, isArabic)
-	} else if s[1] == "/" {
-		return formatNumber(firstNumber/secondNumber, isArabic)
+	result := calc(operation, firstNumber, secondNumber)
+	if result < 0 && !isArabic {
+		panic("Невозможно вывести результат меньше 0 для римских цифр")
 	}
-	return ""
+	return formatNumber(result, isArabic)
+}
+
+func calc(operation string, firstNumber int, secondNumber int) int {
+	if operation == "+" {
+		return firstNumber + secondNumber
+	} else if operation == "-" {
+		return firstNumber - secondNumber
+	} else if operation == "*" {
+		return firstNumber * secondNumber
+	} else if operation == "/" {
+		return firstNumber / secondNumber
+	}
+	return 0
 }
 
 func formatNumber(number int, isArabic bool) string {
